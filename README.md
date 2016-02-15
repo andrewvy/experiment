@@ -1,6 +1,6 @@
 # Experiment
 
-Elixir Library for carefully refactoring critical paths.
+Elixir Library for carefully refactoring critical paths, influenced heavily by [github/scientist](https://github.com/github/scientist).
 
 ---
 
