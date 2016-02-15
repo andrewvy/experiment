@@ -47,13 +47,28 @@ defmodule App.ImportantAPIController do
     %{type: "foo"}
   end
 
-  def experiment_record(results) do
-    # Record results into DB, notify me on Slack, etc.
-  end
-
   # Override default behavior which `==` the control and candidate.
   def experiment_compare(control, candidate) do
     control.type == candidate.type
   end
 end
+```
+
+You can define your own Experiment adapter for recording results by using the `Experiment.Base` module.
+
+```elixir
+defmodule App.ExperimentAdapter do
+  use Experiment.Base
+
+  def record(results) do
+    # Do something with the results, save them to the DB, etc.
+  end
+end
+```
+
+In your config, you can specify your own Experiment adapter.
+
+```elixir
+config :experiment,
+  adapter: App.ExperimentAdapter
 ```
