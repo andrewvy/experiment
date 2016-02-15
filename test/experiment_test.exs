@@ -2,7 +2,48 @@ defmodule ExperimentTest do
   use ExUnit.Case
   doctest Experiment
 
-  test "the truth" do
-    assert 1 + 1 == 2
+  alias Experiment.Test
+
+  defmodule ExampleWithoutControl do
+    use Experiment
+
+    def perform do
+      experiment("returns widget for rendering")
+      |> experimental(&func_to_experiment/0)
+      |> perform_experiment
+    end
+
+    def func_to_experiment do
+      {:ok, :foo}
+    end
+  end
+
+  defmodule Example do
+    use Experiment
+
+    def perform do
+      experiment("returns widget for rendering")
+      |> experimental(&func_to_experiment/0)
+      |> control(&func_that_works/0)
+      |> perform_experiment
+    end
+
+    def func_to_experiment do
+      {:ok, :foo}
+    end
+
+    def func_that_works do
+      {:ok, :bar}
+    end
+  end
+
+  test "raises error when experiment doesn't have a control" do
+    assert_raise ArgumentError, fn ->
+      ExampleWithoutControl.perform()
+    end
+  end
+
+  test "hits Adapter.record/1 when results don't match" do
+    Example.perform()
   end
 end

@@ -48,7 +48,7 @@ defmodule App.ImportantAPIController do
   end
 
   # Override default behavior which `==` the control and candidate.
-  def experiment_compare(control, candidate) do
+  def compare_tests(control, candidate) do
     control.type == candidate.type
   end
 end
