@@ -27,9 +27,9 @@ defmodule App.ImportantAPIController do
   def index(conn, params) do
     widget =
       experiment("returns widget for rendering")
-      |> experimental(:func_to_experiment, [])
-      |> experimental(:another_func_to_experiment, [])
-      |> control(:func_that_works, [])
+      |> experimental(&func_to_experiment/0)
+      |> experimental(&another_func_to_experiment/0)
+      |> control(&func_that_works/0)
       |> perform_experiment
 
     render conn, widget: widget
