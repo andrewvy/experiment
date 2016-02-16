@@ -1,4 +1,9 @@
 defmodule Experiment.Adapters.Default do
+  @moduledoc """
+    This is the default lab adapter for Experiment. Records the output to
+    Logger.info
+  """
+
   alias Experiment.{ Base, Lab }
   require Logger
 

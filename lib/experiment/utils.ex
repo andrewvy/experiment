@@ -1,4 +1,7 @@
 defmodule Experiment.Utils do
+  @moduledoc """
+  This module holds utility functions needed by Experiment.
+  """
 
   @doc """
   Parses the configuration.
