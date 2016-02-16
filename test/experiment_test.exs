@@ -2,14 +2,14 @@ defmodule ExperimentTest do
   use ExUnit.Case
   doctest Experiment
 
-  alias Experiment.Test
+  alias Experiment.Lab
 
   defmodule ExampleWithoutControl do
     use Experiment
 
     def perform do
-      experiment("returns widget for rendering")
-      |> experimental(&func_to_experiment/0)
+      lab("returns widget for rendering")
+      |> experiment(&func_to_experiment/0)
       |> perform_experiment
     end
 
@@ -22,8 +22,8 @@ defmodule ExperimentTest do
     use Experiment
 
     def perform do
-      experiment("returns widget for rendering")
-      |> experimental(&func_to_experiment/0)
+      lab("returns widget for rendering")
+      |> experiment(&func_to_experiment/0)
       |> control(&func_that_works/0)
       |> perform_experiment
     end

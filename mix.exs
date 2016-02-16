@@ -3,7 +3,6 @@ defmodule Experiment.Mixfile do
 
   @version "0.0.1"
 
-
   def project do
     [
       app: :experiment,
