@@ -62,8 +62,6 @@
         <small class="visible-xs">experiment v0.0.1</small>
         Experiment
         
-          <small>behaviour</small>
-        
         
       </h1>
 
@@ -73,13 +71,12 @@
 methods for creating and running lab experiments.</p>
 <h2>Example</h2>
 <pre><code class="elixir">defmodule Controller do
-  use Experiment
 
   def main do
-    lab(&quot;Test my new experimental function&quot;)
-    |&gt; experiment(&amp;experimental_function/0)
-    |&gt; control(&amp;control_function/0)
-    |&gt; perform_experiment
+    Experiment.new(&quot;Test my new experimental function&quot;)
+    |&gt; Experiment.experiment(&amp;experimental_function/0)
+    |&gt; Experiment.control(&amp;control_function/0)
+    |&gt; Experiment.perform_experiment
   end
 
   def control_function do
@@ -111,26 +108,25 @@ end</code></pre>
     </h2>
     <div class="summary-row">
   <div class="summary-signature">
+    <a href="#compare/2">compare(lab, func)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Overrides the default compare function on the lab</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
     <a href="#compare_tests/2">compare_tests(control, candidate)</a>
   </div>
   
-    <div class="summary-synopsis"></div>
+    <div class="summary-synopsis"><p>Default comparator. Does <code class="inline">==</code> against the control and candidate</p>
+</div>
   
 </div>
-
-  </div>
-
-
-          
-
-          
-  <div class="summary-callbacks summary">
-    <h2>
-      <a href="#callbacks">Callbacks</a>
-    </h2>
-    <div class="summary-row">
+<div class="summary-row">
   <div class="summary-signature">
-    <a href="#c:control/2">control(arg0, list)</a>
+    <a href="#control/2">control(lab, func)</a>
   </div>
   
     <div class="summary-synopsis"><p>Adds the control in which all experiments will be compared to</p>
@@ -139,25 +135,7 @@ end</code></pre>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#c:experiment/2">experiment(arg0, list)</a>
-  </div>
-  
-    <div class="summary-synopsis"><p>Adds a new experiment to the lab</p>
-</div>
-  
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
-    <a href="#c:experiment/3">experiment(arg0, arg1, list)</a>
-  </div>
-  
-    <div class="summary-synopsis"><p>Adds a new experiment to the lab with the given name</p>
-</div>
-  
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
-    <a href="#c:lab/1">lab(arg0)</a>
+    <a href="#new/1">new(name)</a>
   </div>
   
     <div class="summary-synopsis"><p>Returns a new lab experiment with the given name</p>
@@ -166,16 +144,38 @@ end</code></pre>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#c:perform_experiment/1">perform_experiment(arg0)</a>
+    <a href="#perform_experiment/1">perform_experiment(lab)</a>
   </div>
   
     <div class="summary-synopsis"><p>Runs the lab experiment, returning the result of the control</p>
 </div>
   
 </div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#test/2">test(lab, func)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Adds a new experimental test to the lab</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#test/3">test(lab, func_name, func)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Adds a new experimental test to the lab with the given name</p>
+</div>
+  
+</div>
 
   </div>
 
+
+          
+
+          
 
         </section>
       
@@ -190,7 +190,30 @@ end</code></pre>
             </a>
             Functions
           </h1>
-          <div class="detail" id="compare_tests/2">
+          <div class="detail" id="compare/2">
+  <div class="detail-header">
+    <a href="#compare/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">compare(lab, func)</span>
+      
+  </div>
+  
+    <div class="specs">
+      <h4 class="specs-title">Specs</h4>
+      <div class="specs-list">
+        
+          <pre><code class="elixir">compare(<a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a>, (... -> any)) :: <a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a></code></pre>
+        
+      </div>
+    </div>
+  
+  <section class="docstring">
+    <p>  Overrides the default compare function on the lab.</p>
+
+  </section>
+</div>
+<div class="detail" id="compare_tests/2">
   <div class="detail-header">
     <a href="#compare_tests/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
@@ -209,29 +232,16 @@ end</code></pre>
     </div>
   
   <section class="docstring">
-    
+    <p>  Default comparator. Does <code class="inline">==</code> against the control and candidate.</p>
+
   </section>
 </div>
-
-        </section>
-      
-
-      
-
-      
-        <section id="callbacks" class="details-list">
-          <h1 class="section-heading">
-            <a class="hover-link" href="#callbacks">
-              <i class="icon-link"></i>
-            </a>
-            Callbacks
-          </h1>
-          <div class="detail" id="c:control/2">
+<div class="detail" id="control/2">
   <div class="detail-header">
-    <a href="#c:control/2" class="detail-link" title="Link to this callback">
+    <a href="#control/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">control(arg0, list)</span>
+    <span class="signature">control(lab, func)</span>
       
   </div>
   
@@ -250,12 +260,12 @@ end</code></pre>
 
   </section>
 </div>
-<div class="detail" id="c:experiment/2">
+<div class="detail" id="new/1">
   <div class="detail-header">
-    <a href="#c:experiment/2" class="detail-link" title="Link to this callback">
+    <a href="#new/1" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">experiment(arg0, list)</span>
+    <span class="signature">new(name)</span>
       
   </div>
   
@@ -263,53 +273,7 @@ end</code></pre>
       <h4 class="specs-title">Specs</h4>
       <div class="specs-list">
         
-          <pre><code class="elixir">experiment(<a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a>, (... -> any)) :: <a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a></code></pre>
-        
-      </div>
-    </div>
-  
-  <section class="docstring">
-    <p>  Adds a new experiment to the lab.</p>
-
-  </section>
-</div>
-<div class="detail" id="c:experiment/3">
-  <div class="detail-header">
-    <a href="#c:experiment/3" class="detail-link" title="Link to this callback">
-      <i class="icon-link"></i>
-    </a>
-    <span class="signature">experiment(arg0, arg1, list)</span>
-      
-  </div>
-  
-    <div class="specs">
-      <h4 class="specs-title">Specs</h4>
-      <div class="specs-list">
-        
-          <pre><code class="elixir">experiment(<a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a>, <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, (... -> any)) :: <a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a></code></pre>
-        
-      </div>
-    </div>
-  
-  <section class="docstring">
-    <p>  Adds a new experiment to the lab with the given name.</p>
-
-  </section>
-</div>
-<div class="detail" id="c:lab/1">
-  <div class="detail-header">
-    <a href="#c:lab/1" class="detail-link" title="Link to this callback">
-      <i class="icon-link"></i>
-    </a>
-    <span class="signature">lab(arg0)</span>
-      
-  </div>
-  
-    <div class="specs">
-      <h4 class="specs-title">Specs</h4>
-      <div class="specs-list">
-        
-          <pre><code class="elixir">lab(<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>) :: <a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a></code></pre>
+          <pre><code class="elixir">new(<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>) :: <a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a></code></pre>
         
       </div>
     </div>
@@ -319,12 +283,12 @@ end</code></pre>
 
   </section>
 </div>
-<div class="detail" id="c:perform_experiment/1">
+<div class="detail" id="perform_experiment/1">
   <div class="detail-header">
-    <a href="#c:perform_experiment/1" class="detail-link" title="Link to this callback">
+    <a href="#perform_experiment/1" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">perform_experiment(arg0)</span>
+    <span class="signature">perform_experiment(lab)</span>
       
   </div>
   
@@ -342,8 +306,58 @@ end</code></pre>
 
   </section>
 </div>
+<div class="detail" id="test/2">
+  <div class="detail-header">
+    <a href="#test/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">test(lab, func)</span>
+      
+  </div>
+  
+    <div class="specs">
+      <h4 class="specs-title">Specs</h4>
+      <div class="specs-list">
+        
+          <pre><code class="elixir">test(<a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a>, (... -> any)) :: <a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a></code></pre>
+        
+      </div>
+    </div>
+  
+  <section class="docstring">
+    <p>  Adds a new experimental test to the lab.</p>
+
+  </section>
+</div>
+<div class="detail" id="test/3">
+  <div class="detail-header">
+    <a href="#test/3" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">test(lab, func_name, func)</span>
+      
+  </div>
+  
+    <div class="specs">
+      <h4 class="specs-title">Specs</h4>
+      <div class="specs-list">
+        
+          <pre><code class="elixir">test(<a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a>, <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, (... -> any)) :: <a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a></code></pre>
+        
+      </div>
+    </div>
+  
+  <section class="docstring">
+    <p>  Adds a new experimental test to the lab with the given name.</p>
+
+  </section>
+</div>
 
         </section>
+      
+
+      
+
       
         <footer class="footer">
       <p>
