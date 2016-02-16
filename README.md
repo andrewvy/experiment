@@ -1,5 +1,8 @@
 # Experiment
 
+[![Hex.pm](https://img.shields.io/hexpm/v/experiment.svg?style=flat-square)](https://hex.pm/packages/experiment)
+[![Hex.pm](https://img.shields.io/hexpm/dt/experiment.svg?style=flat-square)](https://hex.pm/packages/experiment)
+
 Elixir Library for carefully refactoring critical paths, influenced heavily by [github/scientist](https://github.com/github/scientist).
 
 ---
