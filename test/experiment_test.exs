@@ -5,12 +5,10 @@ defmodule ExperimentTest do
   alias Experiment.Lab
 
   defmodule ExampleWithoutControl do
-    use Experiment
-
     def perform do
-      lab("returns widget for rendering")
-      |> experiment(&func_to_experiment/0)
-      |> perform_experiment
+      Experiment.new("returns widget for rendering")
+      |> Experiment.experiment(&func_to_experiment/0)
+      |> Experiment.perform_experiment
     end
 
     def func_to_experiment do
@@ -19,13 +17,11 @@ defmodule ExperimentTest do
   end
 
   defmodule Example do
-    use Experiment
-
     def perform do
-      lab("returns widget for rendering")
-      |> experiment(&func_to_experiment/0)
-      |> control(&func_that_works/0)
-      |> perform_experiment
+      Experiment.new("returns widget for rendering")
+      |> Experiment.experiment(&func_to_experiment/0)
+      |> Experiment.control(&func_that_works/0)
+      |> Experiment.perform_experiment
     end
 
     def func_to_experiment do
@@ -38,14 +34,12 @@ defmodule ExperimentTest do
   end
 
   defmodule CompareExample do
-    use Experiment
-
     def perform do
-      lab("returns widget for rendering")
-      |> experiment(&func_to_experiment/0)
-      |> control(&func_that_works/0)
-      |> compare(&compare_tests/2)
-      |> perform_experiment
+      Experiment.new("returns widget for rendering")
+      |> Experiment.experiment(&func_to_experiment/0)
+      |> Experiment.control(&func_that_works/0)
+      |> Experiment.compare(&compare_tests/2)
+      |> Experiment.perform_experiment
     end
 
     def func_to_experiment do

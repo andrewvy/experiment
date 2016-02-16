@@ -25,16 +25,14 @@ sometimes you really want to pit your refactored code against your current code.
 
 ```elixir
 defmodule App.ImportantAPIController do
-  use Experiment, otp_app: :my_app
-
   def index(conn, params) do
     widget =
-      lab("returns widget for rendering")
-      |> experiment(&func_to_experiment/0)
-      |> experiment(&another_func_to_experiment/0)
-      |> control(&func_that_works/0)
-      |> compare(&custom_compare_tests/2)
-      |> perform_experiment
+      Experiment.new("returns widget for rendering")
+      |> Experiment.experiment(&func_to_experiment/0)
+      |> Experiment.experiment(&another_func_to_experiment/0)
+      |> Experiment.control(&func_that_works/0)
+      |> Experiment.compare(&custom_compare_tests/2)
+      |> Experiment.perform_experiment
 
     render conn, widget: widget
   end
@@ -73,6 +71,6 @@ end
 In your config, you can specify your own Experiment adapter.
 
 ```elixir
-config :my_app, Experiment,
+config :experiment,
   adapter: App.ExperimentAdapter
 ```

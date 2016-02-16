@@ -9,7 +9,7 @@ defmodule Experiment.Lab do
 
   @type t :: %Lab{name: String.t, control: function | nil,
                   compare: function | nil, experiments: list | nil,
-                  experiment_count: integer}
+                  adapter: module(), experiment_count: integer}
 
-  defstruct name: "", control: nil, experiments: [], compare: nil, experiment_count: 0
+  defstruct name: "", control: nil, adapter: nil, experiments: [], compare: nil, experiment_count: 0
 end
