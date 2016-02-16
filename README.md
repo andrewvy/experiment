@@ -28,8 +28,8 @@ defmodule App.ImportantAPIController do
   def index(conn, params) do
     widget =
       Experiment.new("returns widget for rendering")
-      |> Experiment.experiment(&func_to_experiment/0)
-      |> Experiment.experiment(&another_func_to_experiment/0)
+      |> Experiment.test(&func_to_experiment/0)
+      |> Experiment.test(&another_func_to_experiment/0)
       |> Experiment.control(&func_that_works/0)
       |> Experiment.compare(&custom_compare_tests/2)
       |> Experiment.perform_experiment

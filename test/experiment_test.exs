@@ -7,7 +7,7 @@ defmodule ExperimentTest do
   defmodule ExampleWithoutControl do
     def perform do
       Experiment.new("returns widget for rendering")
-      |> Experiment.experiment(&func_to_experiment/0)
+      |> Experiment.test(&func_to_experiment/0)
       |> Experiment.perform_experiment
     end
 
@@ -19,7 +19,7 @@ defmodule ExperimentTest do
   defmodule Example do
     def perform do
       Experiment.new("returns widget for rendering")
-      |> Experiment.experiment(&func_to_experiment/0)
+      |> Experiment.test(&func_to_experiment/0)
       |> Experiment.control(&func_that_works/0)
       |> Experiment.perform_experiment
     end
@@ -36,7 +36,7 @@ defmodule ExperimentTest do
   defmodule CompareExample do
     def perform do
       Experiment.new("returns widget for rendering")
-      |> Experiment.experiment(&func_to_experiment/0)
+      |> Experiment.test(&func_to_experiment/0)
       |> Experiment.control(&func_that_works/0)
       |> Experiment.compare(&compare_tests/2)
       |> Experiment.perform_experiment

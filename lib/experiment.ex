@@ -38,18 +38,18 @@ defmodule Experiment do
   end
 
   @doc """
-    Adds a new experiment to the lab.
+    Adds a new experimental test to the lab.
   """
-  @spec experiment(Experiment.Lab.t, fun) :: Experiment.Lab.t
-  def experiment(%Lab{} = lab, func) when is_function(func) do
+  @spec test(Experiment.Lab.t, fun) :: Experiment.Lab.t
+  def test(%Lab{} = lab, func) when is_function(func) do
     %Lab{ lab | experiments: lab.experiments ++ [func] }
   end
 
   @doc """
-    Adds a new experiment to the lab with the given name.
+    Adds a new experimental test to the lab with the given name.
   """
-  @spec experiment(Experiment.Lab.t, String.t, fun) :: Experiment.Lab.t
-  def experiment(%Lab{} = lab, func_name, func) when is_function(func) do
+  @spec test(Experiment.Lab.t, String.t, fun) :: Experiment.Lab.t
+  def test(%Lab{} = lab, func_name, func) when is_function(func) do
     %Lab{ lab | experiments: lab.experiments ++ [func] }
   end
 
