@@ -1,6 +1,5 @@
 defmodule Experiment.Base do
-  use Behaviour
   alias Experiment.Lab
 
-  @callback record(Lab.t, any) :: none
+  @callback record(Lab.t, any, any) :: any
 end
