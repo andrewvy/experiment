@@ -60,7 +60,7 @@ You can define your own Experiment adapter for recording results by using the `E
 defmodule App.ExperimentAdapter do
   use Experiment.Base
 
-  def record(results) do
+  def record(%Experiment.Lab = lab, control_result, candidate_result) do
     # Do something with the results, save them to the DB, etc.
   end
 end
