@@ -38,7 +38,9 @@ defmodule Experiment.Mixfile do
 
   defp deps do
     [
-      {:dialyxir, "~> 0.3", only: [:dev]}
+      {:dialyxir, "~> 0.3", only: :dev},
+      {:earmark, "~> 0.1", only: :dev},
+      {:ex_doc, "~> 0.11", only: :dev}
     ]
   end
 end
