@@ -38,7 +38,7 @@ defmodule Experiment do
 
         results
         |> Enum.reject(&(compare_tests(control, &1)))
-        |> Enum.each(&(@adapter.record(lab, &1)))
+        |> Enum.each(&(@adapter.record(lab, control, &1)))
 
         control
       end
@@ -47,9 +47,30 @@ defmodule Experiment do
     end
   end
 
+  @doc """
+    Returns a new lab experiment with the given name.
+  """
   @callback lab(String.t) :: Experiment.Lab.t
+
+  @doc """
+    Adds a new experiment to the lab.
+  """
   @callback experiment(Experiment.Lab.t, fun) :: Experiment.Lab.t
+
+  @doc """
+    Adds a new experiment to the lab with the given name.
+  """
   @callback experiment(Experiment.Lab.t, String.t, fun) :: Experiment.Lab.t
+
+  @doc """
+    Adds the control in which all experiments will be compared to.
+
+    The result of this function will be the result of the experiment.
+  """
   @callback control(Experimental.Lab.t, fun) :: Experiment.Lab.t
+
+  @doc """
+    Runs the lab experiment, returning the result of the control.
+  """
   @callback perform_experiment(Experimental.Lab.t) :: any
 end

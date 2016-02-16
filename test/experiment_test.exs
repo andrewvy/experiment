@@ -44,6 +44,6 @@ defmodule ExperimentTest do
   end
 
   test "hits Adapter.record/1 when results don't match" do
-    Example.perform()
+    assert {:ok, :bar} == Example.perform()
   end
 end
