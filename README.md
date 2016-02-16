@@ -30,6 +30,7 @@ defmodule App.ImportantAPIController do
       |> experiment(&func_to_experiment/0)
       |> experiment(&another_func_to_experiment/0)
       |> control(&func_that_works/0)
+      |> compare(&custom_compare_tests/2)
       |> perform_experiment
 
     render conn, widget: widget
@@ -48,7 +49,7 @@ defmodule App.ImportantAPIController do
   end
 
   # Override default behavior which `==` the control and candidate.
-  def compare_tests(control, candidate) do
+  def custom_compare_tests(control, candidate) do
     control.type == candidate.type
   end
 end
