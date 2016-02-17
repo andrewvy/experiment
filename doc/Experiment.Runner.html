@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.11.4">
-    <title>Experiment.Adapters.Default – experiment v0.0.2</title>
+    <title>Experiment.Runner – experiment v0.0.2</title>
     <link rel="stylesheet" href="dist/app-1e374caa3d.css" />
     <script src="dist/sidebar_items.js"></script>
   </head>
@@ -60,15 +60,15 @@
 
       <h1>
         <small class="visible-xs">experiment v0.0.2</small>
-        Experiment.Adapters.Default
+        Experiment.Runner
         
         
       </h1>
 
       
         <section id="moduledoc" class="docstring">
-          <p>  This is the default lab adapter for Experiment. Records the output to
-  Logger.info</p>
+          <p>This module is a simple GenServer, providing a way to perform experiments
+concurrently.</p>
 
         </section>
       
@@ -90,11 +90,14 @@
     </h2>
     <div class="summary-row">
   <div class="summary-signature">
-    <a href="#record/3">record(test, control, candidate)</a>
+    <a href="#process/2">process(proc, test)</a>
   </div>
   
-    <div class="summary-synopsis"><p>Callback implementation for <a href="Experiment.Base.html#c:record/3"><code class="inline">Experiment.Base.record/3</code></a></p>
 </div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#start/1">start(lab)</a>
+  </div>
   
 </div>
 
@@ -118,18 +121,30 @@
             </a>
             Functions
           </h1>
-          <div class="detail" id="record/3">
+          <div class="detail" id="process/2">
   <div class="detail-header">
-    <a href="#record/3" class="detail-link" title="Link to this function">
+    <a href="#process/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">record(test, control, candidate)</span>
+    <span class="signature">process(proc, test)</span>
       
   </div>
   
   <section class="docstring">
-    <p>Callback implementation for <a href="Experiment.Base.html#c:record/3"><code class="inline">Experiment.Base.record/3</code></a>.</p>
-
+    
+  </section>
+</div>
+<div class="detail" id="start/1">
+  <div class="detail-header">
+    <a href="#start/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">start(lab)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    
   </section>
 </div>
 

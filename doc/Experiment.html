@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.11.4">
-    <title>Experiment – experiment v0.0.1</title>
+    <title>Experiment – experiment v0.0.2</title>
     <link rel="stylesheet" href="dist/app-1e374caa3d.css" />
     <script src="dist/sidebar_items.js"></script>
   </head>
@@ -27,7 +27,7 @@
         experiment
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.0.1
+        v0.0.2
       </h2>
     </div>
     
@@ -59,7 +59,7 @@
 
 
       <h1>
-        <small class="visible-xs">experiment v0.0.1</small>
+        <small class="visible-xs">experiment v0.0.2</small>
         Experiment
         
         
@@ -74,7 +74,7 @@ methods for creating and running lab experiments.</p>
 
   def main do
     Experiment.new(&quot;Test my new experimental function&quot;)
-    |&gt; Experiment.experiment(&amp;experimental_function/0)
+    |&gt; Experiment.test(&amp;experimental_function/0)
     |&gt; Experiment.control(&amp;control_function/0)
     |&gt; Experiment.perform_experiment
   end
@@ -126,7 +126,7 @@ end</code></pre>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#control/2">control(lab, func)</a>
+    <a href="#control/3">control(lab, func, params \\ [])</a>
   </div>
   
     <div class="summary-synopsis"><p>Adds the control in which all experiments will be compared to</p>
@@ -153,7 +153,7 @@ end</code></pre>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#test/2">test(lab, func)</a>
+    <a href="#test/3">test(lab, func, params \\ [])</a>
   </div>
   
     <div class="summary-synopsis"><p>Adds a new experimental test to the lab</p>
@@ -162,7 +162,7 @@ end</code></pre>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#test/3">test(lab, func_name, func)</a>
+    <a href="#test/4">test(lab, func_name, func, params)</a>
   </div>
   
     <div class="summary-synopsis"><p>Adds a new experimental test to the lab with the given name</p>
@@ -236,12 +236,12 @@ end</code></pre>
 
   </section>
 </div>
-<div class="detail" id="control/2">
+<div class="detail" id="control/3">
   <div class="detail-header">
-    <a href="#control/2" class="detail-link" title="Link to this function">
+    <a href="#control/3" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">control(lab, func)</span>
+    <span class="signature">control(lab, func, params \\ [])</span>
       
   </div>
   
@@ -249,7 +249,7 @@ end</code></pre>
       <h4 class="specs-title">Specs</h4>
       <div class="specs-list">
         
-          <pre><code class="elixir">control(<a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a>, (... -> any)) :: <a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a></code></pre>
+          <pre><code class="elixir">control(<a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a>, (... -> any), list) :: <a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a></code></pre>
         
       </div>
     </div>
@@ -306,12 +306,12 @@ end</code></pre>
 
   </section>
 </div>
-<div class="detail" id="test/2">
+<div class="detail" id="test/3">
   <div class="detail-header">
-    <a href="#test/2" class="detail-link" title="Link to this function">
+    <a href="#test/3" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">test(lab, func)</span>
+    <span class="signature">test(lab, func, params \\ [])</span>
       
   </div>
   
@@ -319,7 +319,7 @@ end</code></pre>
       <h4 class="specs-title">Specs</h4>
       <div class="specs-list">
         
-          <pre><code class="elixir">test(<a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a>, (... -> any)) :: <a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a></code></pre>
+          <pre><code class="elixir">test(<a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a>, (... -> any), list) :: <a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a></code></pre>
         
       </div>
     </div>
@@ -329,12 +329,12 @@ end</code></pre>
 
   </section>
 </div>
-<div class="detail" id="test/3">
+<div class="detail" id="test/4">
   <div class="detail-header">
-    <a href="#test/3" class="detail-link" title="Link to this function">
+    <a href="#test/4" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">test(lab, func_name, func)</span>
+    <span class="signature">test(lab, func_name, func, params)</span>
       
   </div>
   
@@ -342,7 +342,7 @@ end</code></pre>
       <h4 class="specs-title">Specs</h4>
       <div class="specs-list">
         
-          <pre><code class="elixir">test(<a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a>, <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, (... -> any)) :: <a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a></code></pre>
+          <pre><code class="elixir">test(<a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a>, <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, (... -> any), list) :: <a href="Experiment.Lab.html#t:t/0">Experiment.Lab.t</a></code></pre>
         
       </div>
     </div>
