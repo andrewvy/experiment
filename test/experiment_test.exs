@@ -78,6 +78,21 @@ defmodule ExperimentTest do
   end
 
   test "can override compare function" do
-    assert {:ok, :bar} == CompareExample.perform()
+    compare_tests = fn(control, candidate, proc) ->
+      send proc, :ok
+      control == candidate
+    end
+
+    experiment = Experiment.new("returns widget for rendering")
+    |> Experiment.test(&CompareExample.func_to_experiment/0)
+    |> Experiment.control(&CompareExample.func_that_works/0)
+    |> Experiment.compare(&compare_tests.(&1, &2, self))
+
+    result =
+      experiment
+      |> Experiment.perform_experiment
+
+    assert {:ok, :bar} == result
+    assert_received :ok
   end
 end
