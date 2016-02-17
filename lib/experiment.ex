@@ -1,5 +1,5 @@
 defmodule Experiment do
-  alias Experiment.Lab
+  alias Experiment.{ Lab, Test }
 
   @moduledoc """
   This module injects the lab config for working with labs. This also has the
@@ -11,7 +11,7 @@ defmodule Experiment do
 
         def main do
           Experiment.new("Test my new experimental function")
-          |> Experiment.experiment(&experimental_function/0)
+          |> Experiment.test(&experimental_function/0)
           |> Experiment.control(&control_function/0)
           |> Experiment.perform_experiment
         end
@@ -44,7 +44,20 @@ defmodule Experiment do
   def test(%Lab{} = lab, func, params \\ []) when is_function(func) do
     bound = Experiment.Utils.bind(func, params)
 
-    %Lab{ lab | experiments: lab.experiments ++ [bound] }
+    test = %Test{ name: "Test #{lab.experiment_count + 1}", function: bound }
+
+    %Lab{ lab | experiments: lab.experiments ++ [test], experiment_count: lab.experiment_count + 1 }
+  end
+
+  @doc """
+    Adds a new experimental test to the lab with the given name.
+  """
+  @spec test(Experiment.Lab.t, String.t, fun, list) :: Experiment.Lab.t
+  def test(%Lab{} = lab, func_name, func, params) when is_function(func) do
+    bound = Experiment.Utils.bind(func, params)
+    test = %Test{ name: func_name, function: bound }
+
+    %Lab{ lab | experiments: lab.experiments ++ [test], experiment_count: lab.experiment_count + 1 }
   end
 
   @doc """
@@ -57,14 +70,6 @@ defmodule Experiment do
     bound = Experiment.Utils.bind(func, params)
 
     %Lab{ lab | control: bound }
-  end
-
-  @doc """
-    Adds a new experimental test to the lab with the given name.
-  """
-  @spec test(Experiment.Lab.t, String.t, fun, list) :: Experiment.Lab.t
-  def test(%Lab{} = lab, _func_name, func, params) when is_function(func) do
-    %Lab{ lab | experiments: lab.experiments ++ [func] }
   end
 
   @doc """
@@ -85,13 +90,14 @@ defmodule Experiment do
     # - Should perform experiments async in their own task
     # - Once control + experiments are all done, compare the outputs.
 
-    results = Enum.map(lab.experiments, &(&1.()))
     control = lab.control.()
     compare_func = lab.compare
     adapter = lab.adapter
 
-    results
-    |> Enum.reject(&(compare_func.(control, &1)))
+    Enum.map(lab.experiments, fn(test) ->
+      %Test{ test | result: test.function.() }
+    end)
+    |> Enum.reject(&(compare_func.(control, &1.result)))
     |> Enum.each(&(adapter.record(lab, control, &1)))
 
     control

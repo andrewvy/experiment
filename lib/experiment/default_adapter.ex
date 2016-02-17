@@ -9,8 +9,12 @@ defmodule Experiment.Adapters.Default do
 
   @behaviour Base
 
-  def record(%Lab{} = test, control, results) do
-    Logger.info("[Experiment] \"#{test.name}\"")
-    Logger.info(["[Experiment] ", ~s("#{test.name}" - ), "Control: #{inspect control} but got #{inspect results}."])
+  def record(%Lab{} = test, control, candidate) do
+    Logger.info("""
+    [Experiment] #{test.name} - #{candidate.name}
+
+    Control: #{inspect control}
+    Candidate: #{inspect candidate.result}
+    """)
   end
 end
