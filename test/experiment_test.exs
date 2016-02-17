@@ -122,4 +122,24 @@ defmodule ExperimentTest do
 
     assert {:ok, :foo} == result
   end
+
+  test "handles experiment exceptions" do
+    control = fn ->
+      {:ok, :foo}
+    end
+
+    experiment = fn(type) ->
+      throw ArgumentError
+    end
+
+    experiment = Experiment.new("returns widget for rendering")
+    |> Experiment.test(experiment, [:foo])
+    |> Experiment.control(control)
+
+    result =
+      experiment
+      |> Experiment.perform_experiment
+
+    assert {:ok, :foo} == result
+  end
 end

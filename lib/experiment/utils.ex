@@ -13,6 +13,12 @@ defmodule Experiment.Utils do
   end
 
   def bind(f, args) do
-    fn() -> :erlang.apply(f, args) end
+    fn() ->
+      try do
+        :erlang.apply(f, args)
+      catch
+        error -> Exception.format(:error, error)
+      end
+    end
   end
 end

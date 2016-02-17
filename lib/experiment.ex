@@ -94,9 +94,8 @@ defmodule Experiment do
     compare_func = lab.compare
     adapter = lab.adapter
 
-    Enum.map(lab.experiments, fn(test) ->
-      %Test{ test | result: test.function.() }
-    end)
+    lab.experiments
+    |> Enum.map(&(%Test{ &1 | result: &1.function.() }))
     |> Enum.reject(&(compare_func.(control, &1.result)))
     |> Enum.each(&(adapter.record(lab, control, &1)))
 
