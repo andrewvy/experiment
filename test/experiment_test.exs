@@ -19,13 +19,13 @@ defmodule ExperimentTest do
   defmodule Example do
     def perform do
       Experiment.new("returns widget for rendering")
-      |> Experiment.test(&func_to_experiment/0)
+      |> Experiment.test(&func_to_experiment/1, [:foo])
       |> Experiment.control(&func_that_works/0)
       |> Experiment.perform_experiment
     end
 
-    def func_to_experiment do
-      {:ok, :foo}
+    def func_to_experiment(type) do
+      {:ok, type}
     end
 
     def func_that_works do
@@ -59,11 +59,11 @@ defmodule ExperimentTest do
   end
 
   defmodule TestLabAdapter do
-    @behaviour Base
+    @behaviour Experiment.Base
 
     alias Experiment.Lab
 
-    def record(%Lab{} = test, control, results) do
+    def record(%Lab{} = _test, _control, _results) do
     end
   end
 
@@ -94,5 +94,32 @@ defmodule ExperimentTest do
 
     assert {:ok, :bar} == result
     assert_received :ok
+  end
+
+  test "can pass params to functions" do
+    compare_tests = fn(control, candidate) ->
+      control == candidate
+    end
+
+    control = fn ->
+      {:ok, :foo}
+    end
+
+    experiment = fn(type) ->
+      assert type == :foo
+
+      {:ok, type}
+    end
+
+    experiment = Experiment.new("returns widget for rendering")
+    |> Experiment.test(control)
+    |> Experiment.control(experiment, [:foo])
+    |> Experiment.compare(&compare_tests.(&1, &2))
+
+    result =
+      experiment
+      |> Experiment.perform_experiment
+
+    assert {:ok, :foo} == result
   end
 end

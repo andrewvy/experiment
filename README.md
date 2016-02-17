@@ -28,7 +28,7 @@ defmodule App.ImportantAPIController do
   def index(conn, params) do
     widget =
       Experiment.new("returns widget for rendering")
-      |> Experiment.test(&func_to_experiment/0)
+      |> Experiment.test(&func_to_experiment/1, ["foo"])
       |> Experiment.test(&another_func_to_experiment/0)
       |> Experiment.control(&func_that_works/0)
       |> Experiment.compare(&custom_compare_tests/2)
@@ -37,8 +37,8 @@ defmodule App.ImportantAPIController do
     render conn, widget: widget
   end
 
-  def func_to_experiment do
-    %{type: "foo"}
+  def func_to_experiment(type) do
+    %{type: type}
   end
 
   def another_func_to_experiment do

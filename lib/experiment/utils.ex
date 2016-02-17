@@ -12,4 +12,7 @@ defmodule Experiment.Utils do
     Application.get_env(:experiment, :adapter, @default_adapter)
   end
 
+  def bind(f, args) do
+    fn() -> :erlang.apply(f, args) end
+  end
 end

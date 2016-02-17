@@ -40,17 +40,11 @@ defmodule Experiment do
   @doc """
     Adds a new experimental test to the lab.
   """
-  @spec test(Experiment.Lab.t, fun) :: Experiment.Lab.t
-  def test(%Lab{} = lab, func) when is_function(func) do
-    %Lab{ lab | experiments: lab.experiments ++ [func] }
-  end
+  @spec test(Experiment.Lab.t, fun, list) :: Experiment.Lab.t
+  def test(%Lab{} = lab, func, params \\ []) when is_function(func) do
+    bound = Experiment.Utils.bind(func, params)
 
-  @doc """
-    Adds a new experimental test to the lab with the given name.
-  """
-  @spec test(Experiment.Lab.t, String.t, fun) :: Experiment.Lab.t
-  def test(%Lab{} = lab, func_name, func) when is_function(func) do
-    %Lab{ lab | experiments: lab.experiments ++ [func] }
+    %Lab{ lab | experiments: lab.experiments ++ [bound] }
   end
 
   @doc """
@@ -58,9 +52,19 @@ defmodule Experiment do
 
     The result of this function will be the result of the experiment.
   """
-  @spec control(Experiment.Lab.t, fun) :: Experiment.Lab.t
-  def control(%Lab{} = lab, func) when is_function(func) do
-    %Lab{ lab | control: func }
+  @spec control(Experiment.Lab.t, fun, list) :: Experiment.Lab.t
+  def control(%Lab{} = lab, func, params \\ []) when is_function(func) do
+    bound = Experiment.Utils.bind(func, params)
+
+    %Lab{ lab | control: bound }
+  end
+
+  @doc """
+    Adds a new experimental test to the lab with the given name.
+  """
+  @spec test(Experiment.Lab.t, String.t, fun, list) :: Experiment.Lab.t
+  def test(%Lab{} = lab, _func_name, func, params) when is_function(func) do
+    %Lab{ lab | experiments: lab.experiments ++ [func] }
   end
 
   @doc """
