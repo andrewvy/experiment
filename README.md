@@ -8,8 +8,6 @@ Elixir Library for carefully refactoring critical paths, influenced heavily by [
 
 ---
 
-(this is in an unfinished stage, as we flesh out the design of Experiment)
-
 Running Elixir in production? ExUnit says all your tests pass? Can't wait to be
 utilizing the awesome hot-code reloading feature to push up your new changes?
 Well, hold on there, for critical parts of your application you may need more
@@ -18,6 +16,28 @@ reassurance.
 Experiment allows you to run refactored code side-by-side with your previously
 written code, compare the outputs of each, and notifying when something didn't
 return as expected.
+
+---
+
+### Documentation
+
+Documentation is available at [http://hexdocs.pm/experiment](http://hexdocs.pm/experiment)
+
+---
+
+### Installation
+
+Add Experiment as a dependency to your project.
+
+```elixir
+defp deps do
+  [{:experiment, "~> 0.0.2"}]
+end
+```
+
+Then run `mix deps.get` to fetch it.
+
+---
 
 ### Usage
 
