@@ -4,7 +4,7 @@ defmodule Experiment.Base do
   results of experiments.
   """
 
-  alias Experiment.Lab
+  alias Experiment.{ Lab, Test }
 
-  @callback record(Lab.t, any, any) :: any
+  @callback record(Lab.t, any, Test.t) :: any
 end
