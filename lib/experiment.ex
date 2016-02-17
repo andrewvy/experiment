@@ -1,5 +1,5 @@
 defmodule Experiment do
-  alias Experiment.{ Lab, Test }
+  alias Experiment.{ Lab, Test, Runner }
 
   @moduledoc """
   This module injects the lab config for working with labs. This also has the
@@ -68,8 +68,9 @@ defmodule Experiment do
   @spec control(Experiment.Lab.t, fun, list) :: Experiment.Lab.t
   def control(%Lab{} = lab, func, params \\ []) when is_function(func) do
     bound = Experiment.Utils.bind(func, params)
+    test = %Test{ name: "Control", function: bound }
 
-    %Lab{ lab | control: bound }
+    %Lab{ lab | control: test }
   end
 
   @doc """
@@ -90,16 +91,12 @@ defmodule Experiment do
     # - Should perform experiments async in their own task
     # - Once control + experiments are all done, compare the outputs.
 
-    control = lab.control.()
-    compare_func = lab.compare
-    adapter = lab.adapter
+    control = %Test{ lab.control | result: lab.control.function.() }
+    lab = %{ lab | control: control }
 
-    lab.experiments
-    |> Enum.map(&(%Test{ &1 | result: &1.function.() }))
-    |> Enum.reject(&(compare_func.(control, &1.result)))
-    |> Enum.each(&(adapter.record(lab, control, &1)))
+    Experiment.Runner.start(lab)
 
-    control
+    control.result
   end
 
   @doc """

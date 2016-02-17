@@ -13,7 +13,7 @@ defmodule Experiment.Adapters.Default do
     Logger.info("""
     [Experiment] #{test.name} - #{candidate.name}
 
-    Control: #{inspect control}
+    Control: #{inspect control.result}
     Candidate: #{inspect candidate.result}
     """)
   end

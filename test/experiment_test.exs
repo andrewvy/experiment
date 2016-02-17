@@ -78,22 +78,29 @@ defmodule ExperimentTest do
   end
 
   test "can override compare function" do
-    compare_tests = fn(control, candidate, proc) ->
-      send proc, :ok
+    compare_tests = fn(control, candidate) ->
+      assert control == candidate
       control == candidate
     end
 
+    control = fn ->
+      {:ok, :foo}
+    end
+
+    experiment = fn ->
+      {:ok, :foo}
+    end
+
     experiment = Experiment.new("returns widget for rendering")
-    |> Experiment.test(&CompareExample.func_to_experiment/0)
-    |> Experiment.control(&CompareExample.func_that_works/0)
-    |> Experiment.compare(&compare_tests.(&1, &2, self))
+    |> Experiment.test(experiment)
+    |> Experiment.control(control)
+    |> Experiment.compare(compare_tests)
 
     result =
       experiment
       |> Experiment.perform_experiment
 
-    assert {:ok, :bar} == result
-    assert_received :ok
+    assert {:ok, :foo} == result
   end
 
   test "can pass params to functions" do
@@ -128,7 +135,7 @@ defmodule ExperimentTest do
       {:ok, :foo}
     end
 
-    experiment = fn(type) ->
+    experiment = fn(_type) ->
       throw ArgumentError
     end
 

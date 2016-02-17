@@ -5,10 +5,10 @@ defmodule Experiment.Lab do
   well as the control functions.
   """
 
-  alias Experiment.Lab
+  alias Experiment.{ Lab, Test }
 
   @type t :: %Lab{name: String.t, control: function | nil,
-                  compare: function | nil, experiments: list | nil,
+                  compare: Test.t, experiments: list | nil,
                   adapter: module(), experiment_count: integer}
 
   defstruct name: "", control: nil, adapter: nil, experiments: [], compare: nil, experiment_count: 0
