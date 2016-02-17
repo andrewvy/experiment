@@ -1,5 +1,5 @@
 defmodule Experiment do
-  alias Experiment.{ Lab, Test, Runner }
+  alias Experiment.{ Lab, Test }
 
   @moduledoc """
   This module injects the lab config for working with labs. This also has the
@@ -32,6 +32,7 @@ defmodule Experiment do
   @spec new(String.t) :: Experiment.Lab.t
   def new(name) do
     adapter = Experiment.Utils.parse_config() || Experiment.Adapters.Default
+
     compare = &Experiment.compare_tests/2
 
     %Lab{ name: name, adapter: adapter, compare: compare }
@@ -85,7 +86,7 @@ defmodule Experiment do
     Runs the lab experiment, returning the result of the control.
   """
   @spec perform_experiment(Experiment.Lab.t) :: any
-  def perform_experiment(%Lab{ control: nil } = lab), do: raise ArgumentError, message: "Control not found in Experiment"
+  def perform_experiment(%Lab{ control: nil }), do: raise ArgumentError, message: "Control not found in Experiment"
   def perform_experiment(%Lab{} = lab) do
     # We should return the control result as soon as possible
     # - Should perform experiments async in their own task
@@ -94,7 +95,18 @@ defmodule Experiment do
     control = %Test{ lab.control | result: lab.control.function.() }
     lab = %{ lab | control: control }
 
-    Experiment.Runner.start(lab)
+    tests = lab.experiments
+    |> Enum.map(fn(test) -> Task.async(fn -> %Test{ test | result: test.function.() } end) end)
+    |> Task.yield_many(5000)
+    |> Enum.map(fn({task, test}) ->
+      test || Task.shutdown(task, :brutal_kill)
+    end)
+
+    for {:ok, test} <- tests do
+      if !lab.compare.(control.result, test.result) do
+        lab.adapter.record(lab, control, test)
+      end
+    end
 
     control.result
   end

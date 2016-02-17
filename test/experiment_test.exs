@@ -6,7 +6,7 @@ defmodule ExperimentTest do
 
   defmodule ExampleWithoutControl do
     def perform do
-      Experiment.new("returns widget for rendering")
+      Experiment.new("ExampleWithoutControl: returns widget for rendering")
       |> Experiment.test(&func_to_experiment/0)
       |> Experiment.perform_experiment
     end
@@ -18,7 +18,7 @@ defmodule ExperimentTest do
 
   defmodule Example do
     def perform do
-      Experiment.new("returns widget for rendering")
+      Experiment.new("Example: returns widget for rendering")
       |> Experiment.test(&func_to_experiment/1, [:foo])
       |> Experiment.control(&func_that_works/0)
       |> Experiment.perform_experiment
@@ -35,7 +35,7 @@ defmodule ExperimentTest do
 
   defmodule CompareExample do
     def perform do
-      Experiment.new("returns widget for rendering")
+      Experiment.new("CompareExample: returns widget for rendering")
       |> Experiment.test(&func_to_experiment/0)
       |> Experiment.control(&func_that_works/0)
       |> Experiment.compare(&compare_tests/2)
@@ -73,7 +73,7 @@ defmodule ExperimentTest do
     end
   end
 
-  test "hits Adapter.record/1 when results don't match" do
+  test "hits Adapter.record/3 when results don't match" do
     assert {:ok, :bar} == Example.perform()
   end
 
@@ -91,7 +91,7 @@ defmodule ExperimentTest do
       {:ok, :foo}
     end
 
-    experiment = Experiment.new("returns widget for rendering")
+    experiment = Experiment.new("returns widget for rendering, override compare")
     |> Experiment.test(experiment)
     |> Experiment.control(control)
     |> Experiment.compare(compare_tests)
@@ -121,7 +121,7 @@ defmodule ExperimentTest do
     experiment = Experiment.new("returns widget for rendering")
     |> Experiment.test(control)
     |> Experiment.control(experiment, [:foo])
-    |> Experiment.compare(&compare_tests.(&1, &2))
+    |> Experiment.compare(compare_tests)
 
     result =
       experiment

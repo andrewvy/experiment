@@ -31,7 +31,7 @@ Add Experiment as a dependency to your project.
 
 ```elixir
 defp deps do
-  [{:experiment, "~> 0.0.2"}]
+  [{:experiment, "~> 0.0.3"}]
 end
 ```
 
@@ -76,6 +76,25 @@ defmodule App.ImportantAPIController do
   end
 end
 ```
+
+By default, the default Experiment adapter uses `Logger.info` for outputting. If an experiment crashes, a stacktrace is provided as it's result.
+
+```
+12:53:14.250 [info]  [Experiment] Example: returns widget for rendering - Test 1
+
+Control: {:ok, :bar}
+Candidate: {:ok, :foo}
+
+
+12:53:14.256 [info]  [Experiment] returns widget for rendering - Test 1
+
+Control: {:ok, :foo}
+Candidate: "** (ErlangError) erlang error: ArgumentError\n    test/experiment_test.exs:139: anonymous fn/1 in ExperimentTest.test handles experiment exceptions/1\n    (experiment) lib/experiment/utils.ex:18: anonymous fn/2 in Experiment.Utils.bind/2\n    (experiment) lib/experiment.ex:99: anonymous fn/1 in Experiment.perform_experiment/1\n    (elixir) lib/task/supervised.ex:89: Task.Supervised.do_apply/2\n    (elixir) lib/task/supervised.ex:40: Task.Supervised.reply/5\n    (stdlib) proc_lib.erl:240: :proc_lib.init_p_do_apply/3\n"
+```
+
+---
+
+### Customizing Adapter
 
 You can define your own Experiment adapter for recording results by using the `Experiment.Base` module.
 
