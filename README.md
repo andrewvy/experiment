@@ -13,7 +13,7 @@ utilizing the awesome hot-code reloading feature to push up your new changes?
 Well, hold on there, for critical parts of your application you may need more
 reassurance.
 
-Experiment allows you to run refactored code side-by-side with your previously
+Experiment allows you to run refactored code side-by-side (concurrently) with your previously
 written code, compare the outputs of each, and notifying when something didn't
 return as expected.
 
@@ -50,7 +50,7 @@ defmodule App.ImportantAPIController do
     widget =
       Experiment.new("returns widget for rendering")
       |> Experiment.test(&func_to_experiment/1, ["foo"])
-      |> Experiment.test(&another_func_to_experiment/0)
+      |> Experiment.test("Named Experiment", &another_func_to_experiment/0)
       |> Experiment.control(&func_that_works/0)
       |> Experiment.compare(&custom_compare_tests/2)
       |> Experiment.perform_experiment
@@ -101,8 +101,18 @@ You can define your own Experiment adapter for recording results by using the `E
 ```elixir
 defmodule App.ExperimentAdapter do
   use Experiment.Base
+  require Logger
 
-  def record(%Experiment.Lab = lab, control_result, candidate_result) do
+  def record(lab, control, candidate) do
+    # Get the lab name
+    Logger.info lab.name
+
+    # Log out control's result
+    Logger.info "#{control.name} - #{inspect control.result}"
+
+    # Log out candidate's result
+    Logger.info "#{candidate.name} - #{inspect candidate.result}"
+
     # Do something with the results, save them to the DB, etc.
   end
 end
