@@ -40,7 +40,8 @@ defmodule Experiment.Mixfile do
     [
       {:dialyxir, "~> 0.3", only: :dev},
       {:earmark, "~> 0.1", only: :dev},
-      {:ex_doc, "~> 0.11", only: :dev}
+      {:ex_doc, "~> 0.11", only: :dev},
+      {:inch_ex, only: :docs}
     ]
   end
 end
